@@ -36,7 +36,7 @@ const Services = () => {
                 }
             </div>
             <div className='pagination  mb-20 text-center mt-7'>
-                <h1 className='my-5 text-3xl'>Currently selected pages :{pageNumber} Per page data: {perPageData}</h1>
+                <h1 className='my-5 text-3xl'>Currently selected pages :{pageNumber + 1} Per page data: {perPageData}</h1>
                 {
                     [...Array(pages).keys()].map(number => <button onClick={()=>setPageNumber(number) } className={pageNumber === number ? 'mr-5 border p-3 font-semibold text-2xl bg-blue-600 text-white' : 'mr-5 border p-2 font-semibold text-2xl'}
                         key={number}>{ number + 1}</button>)
