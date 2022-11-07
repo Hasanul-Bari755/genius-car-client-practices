@@ -5,11 +5,21 @@ import ServiceCard from './ServiceCard';
 
 const Services = () => {
     const [services, setServices] = useState([]);
+    const [count, setCount] = useState(0);
+    const [pageNumber, setPageNumber] = useState(0);
+    const [perPageData, setPerPageDate] = useState(2);
+
+    const pages = Math.ceil(count / perPageData);
+
+    console.log(pages)
     useEffect( () =>{
-        fetch('services.json')
+        fetch(`http://localhost:5000/services?pageNumber=${pageNumber}&perPageData=${perPageData}`)
         .then(res =>res.json())
-        .then(data => setServices(data))
-    }, [])
+            .then(data => {
+                setServices(data.services)
+                setCount(data.count)
+            })
+    }, [pageNumber,perPageData])
     return (
         <div>
             <div className='text-center mb-4'>
@@ -24,6 +34,19 @@ const Services = () => {
                         service={service}
                     ></ServiceCard>)
                 }
+            </div>
+            <div className='pagination  mb-20 text-center mt-7'>
+                <h1 className='my-5 text-3xl'>Currently selected pages :{pageNumber} Per page data: {perPageData}</h1>
+                {
+                    [...Array(pages).keys()].map(number => <button onClick={()=>setPageNumber(number) } className={pageNumber === number ? 'mr-5 border p-3 font-semibold text-2xl bg-blue-600 text-white' : 'mr-5 border p-2 font-semibold text-2xl'}
+                        key={number}>{ number + 1}</button>)
+                }
+                <select onChange={(event)=>setPerPageDate(event.target.value)}>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
             </div>
         </div>
     );
